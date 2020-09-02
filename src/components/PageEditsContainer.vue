@@ -11,9 +11,12 @@
             </template>
         </div>
 
-        <div class="NewPageEditBtnContainer">
-            <button v-on:click='AddNewPageEdit' id="NewPageEditBtn">New Page Edit</button>
-        </div>
+        <keep-alive>
+            <div class="MainButtonsContainer">
+                <button @click='SavePageEdits' id="SaveBtn">Save</button>
+                <button @click='AddNewPageEdit' id="NewPageEditBtn">New Page Edit</button>
+            </div>
+        </keep-alive>
     </div>
 </template>
 
@@ -39,11 +42,6 @@ export default {
             "el": "<a>",
             "url": "www.suraj.com",
             "replace": "hi"
-        },
-        {
-            "el": "<a>",
-            "url": "www.cameron.com",
-            "replace": "yo"
         })
       },
 
@@ -56,6 +54,18 @@ export default {
           this.pageEdits[data.editindex] = data.localState
       },
 
+      SavePageEdits:function(){
+          chrome.storage.sync.clear(function(){})
+          chrome.storage.sync.set({'MyMarkup': this.pageEdits}, function() {
+              if (chrome.runtime.error) {
+                console.log("Runtime error.");
+                }else{console.log('Settings saved')}
+            });   
+            chrome.tabs.getSelected(null, function(tab) {
+                var code = 'window.location.reload();';
+                chrome.tabs.executeScript(tab.id, {code: code});
+            });
+      }
 
   }
 }
@@ -65,7 +75,7 @@ export default {
 <style scoped>
 .container{
     margin: 20px 20px 0px 20px;
-    height: 375px;
+    height: 300px;
     overflow: auto;
     border: solid 1px #517CA4;
 }
@@ -92,7 +102,7 @@ h3{
     color: #3590D5;
 }
 
-.NewPageEditBtnContainer{
+.MainButtonsContainer{
     margin: 25px 20px 0px 20px;
 }
 
@@ -108,6 +118,22 @@ h3{
 }
 
 #NewPageEditBtn:hover{
+    background-color: #3590D5;
+}
+
+#SaveBtn{
+    margin-bottom: 20px;
+    width: 100%;
+    height: 40px;
+    border-radius: 6px;
+    border: solid 2px #3590D5;
+    transition: 0.3s;
+    background-color: white;
+    outline: none;
+    opacity: 0.8;
+}
+
+#SaveBtn:hover{
     background-color: #3590D5;
 }
 

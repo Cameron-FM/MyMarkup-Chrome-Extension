@@ -11,8 +11,9 @@ import PageEditsContainer from '@/components/PageEditsContainer.vue'
 
 export default {
   name: 'App',
-  components: {LogoBanner, PageEditsContainer}
+  components: {LogoBanner, PageEditsContainer},
 }
+
 </script>
 
 <style>

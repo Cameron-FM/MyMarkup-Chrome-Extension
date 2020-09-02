@@ -55,7 +55,7 @@ export default {
 <style scoped>
 .SinglePageEdit{
     padding: 20px 20px 20px 20px;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     display: grid;
     grid-template-columns: 150px 150px auto;
     grid-template-rows: 30px 30px;
