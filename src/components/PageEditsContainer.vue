@@ -39,11 +39,16 @@ export default {
   methods: {
       loadCachedEdits:function(){
         chrome.storage.sync.get(['MyMarkup'], (result) => {
-        this.pageEdits = result.MyMarkup
+        if (result.MyMarkup != null || result.MyMarkup != undefined){
+            this.pageEdits = result.MyMarkup
+        }else{
+            this.addNewPageEdit()
+        }
         })
-      },
+        },
 
       addNewPageEdit:function(){
+          console.log(this)
          this.pageEdits.push({el: "", url: "", replace: ""})
       },
 
@@ -70,8 +75,7 @@ export default {
           
       },
 
-      handleScroll(){
-        console.log('here')
+      handleScroll:function(){
         document.getElementById("container").style.borderBottomWidth = "2px"
     }
   }

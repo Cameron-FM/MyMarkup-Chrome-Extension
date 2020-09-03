@@ -13,9 +13,12 @@ export default {
 <style scoped>
 div {
   width: 100%;
-  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 img {
-  width: 100%;
+  width: 200px;
+  margin: 20px;
 }
 </style>

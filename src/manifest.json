@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "My Markup",
   "homepage_url": "http://localhost:8080/",
-  "description": "A Chrome Extension to help you save you HTML page edits",
+  "description": "A Chrome Extension to help you save",
   "default_locale": "en",
   "permissions": [
     "activeTab",
