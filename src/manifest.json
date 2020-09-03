@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "__MSG_extName__",
+  "name": "My Markup",
   "homepage_url": "http://localhost:8080/",
-  "description": "A Vue Browser Extension",
+  "description": "A Chrome Extension to help you save you HTML page edits",
   "default_locale": "en",
   "permissions": [
     "activeTab",
@@ -12,9 +12,9 @@
     "storage"
   ],
   "icons": {
-    "16": "icons/16.png",
-    "48": "icons/48.png",
-    "128": "icons/128.png"
+    "16": "icons/MyMarkup Small Logo.png",
+    "48": "icons/MyMarkup Small Logo.png",
+    "128": "icons/MyMarkup Small Logo.png"
   },
   "background": {
     "scripts": [
@@ -24,10 +24,10 @@
   },
   "browser_action": {
     "default_popup": "popup.html",
-    "default_title": "__MSG_extName__",
+    "default_title": "My Markup",
     "default_icon": {
-      "19": "icons/19.png",
-      "38": "icons/38.png"
+      "19": "icons/MyMarkup Small Logo.png",
+      "38": "icons/MyMarkup Small Logo.png"
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img src="../assets/MyMarkupLogo.png" alt="My Markup logo">
+    <img src="../assets/MyMarkup Large Logo.png" alt="My Markup logo">
   </div>
 </template>
 
