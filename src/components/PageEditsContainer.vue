@@ -5,16 +5,16 @@
             <h3 class="right">Target Page URL</h3>
         </div>
 
-        <div class="container">
+        <div id="container" @scroll="handleScroll">
             <template v-for='(value, index) in pageEdits'>
-                <PageEditComponent @EditChange='PageEditChange' :key='index' :el='value.el' :url='value.url' :replace='value.replace' :index='index'/>
+                <PageEditComponent @deletePageEdit="deletePageEdit" @EditChange='pageEditChange' :key='index' :el='value.el' :url='value.url' :replace='value.replace' :index='index'/>
             </template>
         </div>
 
         <keep-alive>
             <div class="MainButtonsContainer">
-                <button @click='SavePageEdits' id="SaveBtn">Save</button>
-                <button @click='AddNewPageEdit' id="NewPageEditBtn">New Page Edit</button>
+                <button @click='addNewPageEdit' id="NewPageEditBtn">New Page Edit</button>
+                <button @click='savePageEdits' id="SaveBtn">Save</button>  
             </div>
         </keep-alive>
     </div>
@@ -33,58 +33,68 @@ export default {
   },
 
   mounted:function(){
-      this.LoadCachedEdits() //Load cached edits on page load
+      this.loadCachedEdits() //Load cached edits on page load
   },
 
   methods: {
-      LoadCachedEdits:function(){
-        this.pageEdits.push({
-            "el": "<a>",
-            "url": "www.suraj.com",
-            "replace": "hi"
+      loadCachedEdits:function(){
+        chrome.storage.sync.get(['MyMarkup'], (result) => {
+        this.pageEdits = result.MyMarkup
         })
       },
 
-      AddNewPageEdit:function(){
-         this.pageEdits.push({})
-         
+      addNewPageEdit:function(){
+         this.pageEdits.push({el: "", url: "", replace: ""})
       },
 
-      PageEditChange:function(data){
-          this.pageEdits[data.editindex] = data.localState
+      pageEditChange:function(data){
+          console.log('data',data)
+          this.pageEdits[data.editindex].el = data.localState.el_data
+          this.pageEdits[data.editindex].url = data.localState.url_data
+          this.pageEdits[data.editindex].replace = data.localState.replace_data
       },
 
-      SavePageEdits:function(){
+      savePageEdits:function(){
           chrome.storage.sync.clear(function(){})
           chrome.storage.sync.set({'MyMarkup': this.pageEdits}, function() {
-              if (chrome.runtime.error) {
-                console.log("Runtime error.");
-                }else{console.log('Settings saved')}
-            });   
             chrome.tabs.getSelected(null, function(tab) {
                 var code = 'window.location.reload();';
                 chrome.tabs.executeScript(tab.id, {code: code});
-            });
-      }
+            })
+          })
+      },
 
+      deletePageEdit:function(data){
+          this.pageEdits.splice([data.editndex],1)
+          this.savePageEdits()
+          
+      },
+
+      handleScroll(){
+        console.log('here')
+        document.getElementById("container").style.borderBottomWidth = "2px"
+    }
   }
 }
 
 </script>
 
 <style scoped>
-.container{
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+#container{
     margin: 20px 20px 0px 20px;
     height: 300px;
     overflow: auto;
-    border: solid 1px #517CA4;
+    border: none;
+    border-bottom: solid 1px #00A1E0;
 }
 
 .headings{
     padding: 0px 20px 0px 20px;
     margin: 10px 20px 10px 20px;
     display: grid;
-    grid-template-columns: 150px 150px auto ;
+    grid-template-columns: 170px 170px auto ;
     grid-template-rows: 25px;
     column-gap: 20px;
     text-align: center;
@@ -99,7 +109,14 @@ export default {
 }
 
 h3{
-    color: #3590D5;
+    color: #00A1E0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+button{
+    font-family: 'Open Sans', sans-serif;
+    box-shadow: 0px 8px 15px rgba(255, 255, 255, 0.1);
+    color: #222222;
 }
 
 .MainButtonsContainer{
@@ -107,34 +124,36 @@ h3{
 }
 
 #NewPageEditBtn{
-    width: 100%;
-    height: 40px;
-    border-radius: 6px;
-    border: solid 2px #3590D5;
-    transition: 0.3s;
-    background-color: white;
-    outline: none;
-    opacity: 0.8;
-}
-
-#NewPageEditBtn:hover{
-    background-color: #3590D5;
-}
-
-#SaveBtn{
     margin-bottom: 20px;
     width: 100%;
     height: 40px;
     border-radius: 6px;
-    border: solid 2px #3590D5;
+    border: solid 2px #00A1E0;
     transition: 0.3s;
-    background-color: white;
+    background-color: #FFFFFF;
     outline: none;
-    opacity: 0.8;
+    opacity: 1;
+}
+
+#NewPageEditBtn:hover{
+    background-color: #00A1E0;
+    color: #FFFFFF;
+}
+
+#SaveBtn{
+    width: 100%;
+    height: 40px;
+    border-radius: 6px;
+    border: solid 2px #00A1E0;
+    transition: 0.3s;
+    background-color: #FFFFFF;
+    outline: none;
+    opacity: 1;
 }
 
 #SaveBtn:hover{
-    background-color: #3590D5;
+    background-color: #00A1E0;
+    color: #FFFFFF;
 }
 
 </style>

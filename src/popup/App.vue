@@ -21,5 +21,6 @@ html{
   width: 500px;
   height: 600px;
   overflow-y: hidden;
+  background-color: #0D153C;
 }
 </style>

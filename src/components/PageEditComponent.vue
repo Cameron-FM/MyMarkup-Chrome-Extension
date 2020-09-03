@@ -2,9 +2,8 @@
     <div class="SinglePageEdit">
         <input id="ElementInput" type="text" v-model='localState.el_data'>
         <input id="URLInput" type="text" v-model='localState.url_data'>
-        <input id="ReplacmentInput" type="text" v-model='localState.replace_data'>
-        <button id="saveBtn">Save</button>
-        <button id="deleteBtn" >Delete</button>
+        <input id="ReplacmentInput" placeholder="Replace With" type="text" v-model='localState.replace_data'>
+        <div @click="emitPageEditDelete" id="deleteBtn" ><i id="deleteBtnIcon" class="far fa-trash-alt"></i></div>
     </div>
 </template>
 
@@ -23,7 +22,6 @@ export default {
   },
 
   created:function(){
-      console.log(this.index)
       this.localState.el_data = this.el
       this.localState.url_data = this.url
       this.localState.replace_data = this.replace
@@ -48,25 +46,44 @@ export default {
         editindex: this.index
       })
     }
+  },
+
+  methods: {
+      emitPageEditDelete: function(){
+          this.$emit('deletePageEdit',{
+              editindex: this.index
+          })
+      }
   }
 }
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
 .SinglePageEdit{
     padding: 20px 20px 20px 20px;
     margin-bottom: 10px;
     display: grid;
-    grid-template-columns: 150px 150px auto;
+    grid-template-columns: 170px 170px auto;
     grid-template-rows: 30px 30px;
     column-gap: 20px;
     row-gap: 10px;
     height: 75px;
 }
 
+.input{
+    background-color: #FFFFFF;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0px 8px 15px rgba(255, 255, 255 0.1);
+    font-family: 'Open Sans', sans-serif;
+}
+
 #ElementInput{
     grid-column: 1;
     grid-row: 1;
+    
 }
 #URLInput{
     grid-column:2;
@@ -75,19 +92,36 @@ export default {
 
 #ReplacmentInput{
     grid-column: 1 / span 2;
-    grid-row: 2;
+    grid-row: 2 ;
 }
 
-#saveBtn{
-    background-color: #3590D5;
-    grid-column: 3 ;
-    grid-row: 1;
+#ReplacmentInput::placeholder{
+    text-align: center;
 }
 
 #deleteBtn{
-    background-color: #3590D5;
+    border: none;
+    background-color: none;
     grid-column: 3 ;
-    grid-row: 2;
+    grid-row: 1 / span 2;
+    text-align: center;
+    position: relative;
 }
 
+#deleteBtnIcon{
+    font-size: 20px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    transition: 0.3s;
+    color: #00A1E0;
+}
+
+#deleteBtn:hover #deleteBtnIcon{
+    color: #FFFFFF;
+    font-size: 22px;
+}
 </style>
