@@ -15,10 +15,11 @@ div {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items:
 }
 img {
   width: 200px;
+  height: auto;
   margin: 20px;
 }
 </style>
